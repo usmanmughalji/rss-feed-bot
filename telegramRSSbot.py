@@ -2,32 +2,40 @@ import feedparser
 import logging
 import sqlite3
 import os
+from logging import INFO
+from dotenv import load_dotenv
 from telegram.ext import Updater, CommandHandler
 from pathlib import Path
 
+# Enable logging
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=INFO)
+logging.getLogger("urllib3").setLevel(logging.WARNING)
+
+#For Logging
+LOGGER = logging.getLogger(__name__)
+
 Path("config").mkdir(parents=True, exist_ok=True)
 
-# Docker env
-if os.environ.get('TOKEN'):
-    Token = os.environ['TOKEN']
-    chatid = os.environ['CHATID']
-    delay = int(os.environ['DELAY'])
-else:
-    Token = "X"
-    chatid = "X"
-    delay = 60
+#Loading Config
+load_dotenv('config.env')
 
-if Token == "X":
-    print("Token not set!")
+def getConfig(name: str):
+    return os.environ[name]
+try:
+
+    BOT_TOKEN = getConfig('BOT_TOKEN')
+    CHAT_ID = getConfig('CHAT_ID')
+    DELAY = int(getConfig('DELAY'))
+
+#If var is not set in config it will print the following message
+except KeyError as e:
+    LOGGER.error("One or more env variables missing! Exiting now")
+    exit(1)
 
 rss_dict = {}
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
-
 # SQLITE
-
-
 def sqlite_connect():
     global conn
     conn = sqlite3.connect('config/rss.db', check_same_thread=False)
@@ -115,7 +123,7 @@ def cmd_help(update, context):
     update.effective_message.reply_text(
         "RSS to Telegram bot" +
         "\n\nAfter successfully adding a RSS link, the bot starts fetching the feed every "
-        + str(delay) + " seconds. (This can be set)" +
+        + str(DELAY) + " seconds. (This can be set)" +
         "\n\nTitles are used to easily manage RSS feeds and need to contain only one word" +
         "\n\ncommands:" +
         "\n/help Posts this help message" +
@@ -155,7 +163,7 @@ def init_sqlite():
 
 
 def main():
-    updater = Updater(token=Token, use_context=True)
+    updater = Updater(token=BOT_TOKEN, use_context=True)
     job_queue = updater.job_queue
     dp = updater.dispatcher
 
@@ -172,12 +180,13 @@ def main():
         pass
     rss_load()
 
-    job_queue.run_repeating(rss_monitor, delay)
+    job_queue.run_repeating(rss_monitor, DELAY)
 
     updater.start_polling()
     updater.idle()
     conn.close()
 
+LOGGER.info("Yeah I'm running!")
 
 if __name__ == '__main__':
     main()

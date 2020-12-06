@@ -1,0 +1,33 @@
+{
+    "name": "RSS to Telegram bot",
+    "description": "A Simple Telegram Bot Which Fetch Information or Links from RSS Feed",
+    "repository": "https://github.com/usmanmughalji/rss-feed-bot",
+    "logo": "https://telegra.ph/file/9d25c6bc85a8bfcca98df.jpg",
+    "keywords": [
+        "python",
+        "telegram",
+        "rss"
+    ],
+
+    "env": {
+        "BOT_TOKEN":{
+            "description": "Bot Token From https://t.me/BotFather",
+            "value": "",
+            "required": true
+        },
+
+        "CHAT_ID":{
+            "description": "Add your Chat id Here (Group ID)",
+            "value": "",
+            "required": true
+        },
+
+        "DELAY":{
+            "description":"Feed Delay (in Seconds) Default value is 60 seconds",
+            "value": "60",
+            "required": true
+        }
+    },
+	
+	"stack": "container"
+}
