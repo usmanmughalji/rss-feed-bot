@@ -1,34 +1,45 @@
-![RSSTT](rsstt.png)
-
 # RSS to Telegram bot
 
 A self-hosted telegram python bot that dumps posts from RSS feeds to a telegram chat. This script was created because all the third party services were unreliable.
 
 ![Image of help menu](https://bokker.github.io/telegram.png)
 
-### Docker
+# Installation
 
-For the docker image go to: https://hub.docker.com/r/bokker/rss.to.telegram/
+## On Local Machine (WSL - Ubuntu)
 
-### Installation
+- Install Python 3.8.x
 
-Python 3.X
-
-```sh
-pip install feedparser
-pip install python-telegram-bot
+- Clone this repo:
+```
+git clone https://github.com/usmanmughalji/rss-feed-bot
+cd rss-feed-bot
+```
+- Install dependencies for running setup scripts:
+```
+pip3 install -r requirements.txt
+```
+## Setting up config file
+```
+cp config_sample.env config.env
 ```
 
-A telegram bot is needed that the script will connect to. https://botsfortelegram.com/project/the-bot-father/
-Running the script and typing in /help will reveal the current chatId, this needs to be set also in the script
+Fill up rest of the fields. Meaning of each fields are discussed below:
+- **BOT_TOKEN** : The telegram bot token that you get from `@BotFather`
+- **CHAT_ID** : Add chat id, to get this chat id follow this method, add `@GoogleIMGBot` to the group, and send /id in the chat to get this value.
+- **DELAY** : Default value is 60 seconds, you can change if you want.
 
-1. Clone the script
-2. Replace your chatID and Token on the top of the script.
-3. Edit the delay. (seconds)
-4. Save and run
-5. Use the telegram commands to manage feeds
+**Warning!** Without chatID the bot wont be able to send automated messages and will only be able to respond to messages.
 
-Warning! Without chatID the bot wont be able to send automated messages and will only be able to respond to messages.
+- Now Run Bot:
+```
+python3 telegramRSSbot.py
+```
+## For Quick and Easy Installation
+
+## Click Here!
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/usmanmughalji/rss-feed-bot/tree/master)
 
 # Usage
 
@@ -53,19 +64,15 @@ send /help to the bot to get this message:
 >
 > The current chatId is: 20416xxxx
 
+## Updates
+
+- Updated Requirements
+- Added Heroku Support Properly
+
 # Known issues
 
 If the bot is set to for example 5 minutes and one feed manages to get 2 new posts before the bot can check. Only the newest post will show up on telegram.
 
-# Docker
-
-```
-docker create \
-  --name=rss.to.telegram \
-  -e DELAY=60 \
-  -e TOKEN=InsertToken \
-  -e CHATID=InsertChatID \
-  -v /path/to/host/config:/config \
-  --restart unless-stopped \
-  bokker/rss.to.telegram
-```
+## Credits, and Thanks to
+* [BoKKeR](https://github.com/BoKKeR/RSS-to-Telegram-Bot) For His Wonderful Code (Original Repo)
+* [Usman Mughal](https://github.com/usmanmughalji) Hmm
