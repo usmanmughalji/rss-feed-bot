@@ -11,4 +11,4 @@ COPY . /app
 RUN pip install --trusted-host pypi.python.org -r /app/requirements.txt
 
 # Run app.py when the container launches
-CMD ["python3", "telegramRSSbot.py"]
+CMD ["python", "telegramRSSbot.py"]
