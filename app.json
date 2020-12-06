@@ -2,7 +2,7 @@
     "name": "RSS to Telegram bot",
     "description": "A Simple Telegram Bot Which Fetch Information or Links from RSS Feed",
     "repository": "https://github.com/usmanmughalji/rss-feed-bot",
-    "logo": "https://raw.githubusercontent.com/usmanmughalji/rss-feed-bot/master/rsstt.png",
+    "logo": "https://telegra.ph/file/9d25c6bc85a8bfcca98df.jpg",
     "keywords": [
         "python",
         "telegram",
@@ -28,6 +28,13 @@
             "required": true
         }
     },
-	
+    
+    "formation": {
+        "worker": {
+            "quantity": 1,
+            "size": "free"
+        }
+    },
+
 	"stack": "container"
 }
